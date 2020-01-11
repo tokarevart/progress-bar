@@ -17,6 +17,9 @@ public:
         m_is_started = false;
     }
 
+    std::string header() const {
+        return m_header;
+    }
     std::size_t bar_width() const {
         return m_bar_width;
     }
@@ -51,14 +54,17 @@ public:
         return set_count(count() - 1);
     }
 
-    progress_bar(std::size_t max, std::size_t width, char complete = '=', char incomplete = ' ') :
-        m_max(max), m_bar_width(width), m_complete_char(complete), m_incomplete_char(incomplete) {}
+    progress_bar(std::string header, std::size_t max, std::size_t width, 
+                 char complete = '=', char incomplete = ' ') 
+        : m_header(std::move(header)), m_max(max), m_bar_width(width), 
+          m_complete_char(complete), m_incomplete_char(incomplete) {}
 
 
 private:
     bool m_is_started = true;
     std::size_t m_count = 0;
 
+    const std::string m_header;
     const std::size_t m_max;
     const std::size_t m_bar_width;
     const char m_complete_char;
@@ -70,8 +76,8 @@ private:
 
         auto completed_width = (bar_width() * count()) / max();
 
-        std::string bar = "\r[";
-        bar.reserve(bar_width() + 10);
+        std::string bar = "\r" + header() + " [";
+        bar.reserve(header().size() + bar_width() + 12);
         for (std::size_t i = 0; i < completed_width; ++i)
             bar += m_complete_char;
         for (std::size_t i = completed_width; i < bar_width(); ++i)
