@@ -1,4 +1,7 @@
-﻿#include <iostream>
+﻿// Copyright © 2020 Artem Tokarev. All rights reserved.
+// Licensed under the MIT License.
+
+#include <iostream>
 #include <chrono>
 #include <thread>
 #include "progress-bar.h"
